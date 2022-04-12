@@ -1,0 +1,11 @@
+{% extends "plants/base.html" %} {% load static %}{% block title %} Plants
+{% endblock%} {% block content%}
+<div class="container">
+  <h1>Plants</h1>
+  <ul>
+    {% for plant in plants %}
+    <li>{{ plants.title }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %} {% block jsfiles %} {% endblock jsfiles %}
