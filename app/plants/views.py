@@ -7,20 +7,18 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from plants.models import Plants
-from plants.serializers import PlantsSerializer
+from plants.models import Plant
+from plants.serializers import PlantSerializer
 from rest_framework.decorators import api_view
 
 # Create your views here.
-# def index(request):
-#     return render(request, "plants/index.html")
-
 #def index(request):
- #   return HttpResponse("Hello, world. You're at the plants index.")
+    #return render(request, "plants/index.html")
+
 
 def index(request):
     print("------------------------- I AM HERE")
-    queryset = Plants.objects.all()
+    queryset = Plant.objects.all()
     return render(request, "plants/index.html", {'plants': queryset})
 
 
@@ -29,8 +27,8 @@ class index(APIView):
     template_name = 'plants/index.html'
 
     def get(self, request):
-        queryset = Plants.objects.all()
-        return Response({'plants': queryset})
+        queryset = Plant.objects.all()
+        return Response({'plant-shop': queryset})
 
 
 class list_all_plants(APIView):
@@ -38,7 +36,7 @@ class list_all_plants(APIView):
     template_name = 'plants/plant_list.html'
 
     def get(self, request):
-        queryset = Plants.objects.all()
+        queryset = Plant.objects.all()
         return Response({'plants': queryset})
 
 
@@ -46,19 +44,19 @@ class list_all_plants(APIView):
 @api_view(['GET', 'POST', 'DELETE'])
 def plant_list(request):
     if request.method == 'GET':
-        plants = Plants.objects.all()
+        plants = Plant.objects.all()
 
-        title = request.GET.get('title', None)
-        if title is not None:
-            plants = plants.filter(title__icontains=title)
+        #title = request.GET.get('title', None)
+        #if title is not None:
+        #    plants = plants.filter(title__icontains=title)
 
-        plant_serializer = PlantsSerializer(plants, many=True)
-        return JsonResponse(plant_serializer.data, safe=False)
+        plants_serializer = PlantSerializer(plants, many=True)
+        return JsonResponse(plants_serializer.data, safe=False)
         # 'safe=False' for objects serialization
 
     elif request.method == 'POST':
         plant_data = JSONParser().parse(request)
-        plant_serializer = PlantsSerializer(data=plant_data)
+        plant_serializer = PlantSerializer(data=plant_data)
         if plant_serializer.is_valid():
             plant_serializer.save()
             return JsonResponse(plant_serializer.data,
@@ -67,7 +65,7 @@ def plant_list(request):
                             status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        count = Plants.objects.all().delete()
+        count = Plant.objects.all().delete()
         return JsonResponse(
             {
                 'message':
@@ -79,18 +77,18 @@ def plant_list(request):
 @api_view(['GET', 'PUT', 'DELETE'])
 def plant_detail(request, pk):
     try:
-        plant = Plants.objects.get(pk=pk)
-    except Plants.DoesNotExist:
+        plant = Plant.objects.get(pk=pk)
+    except Plant.DoesNotExist:
         return JsonResponse({'message': 'The plant does not exist'},
                             status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        plant_serializer = PlantsSerializer(plant)
+        plant_serializer = PlantSerializer(plant)
         return JsonResponse(plant_serializer.data)
 
     elif request.method == 'PUT':
         plant_data = JSONParser().parse(request)
-        plant_serializer = PlantsSerializer(plant, data=plant_data)
+        plant_serializer = PlantSerializer(plant, data=plant_data)
         if plant_serializer.is_valid():
             plant_serializer.save()
             return JsonResponse(plant_serializer.data)
@@ -105,8 +103,8 @@ def plant_detail(request, pk):
 
 @api_view(['GET'])
 def plant_list_published(request):
-    plants = Plants.objects.filter(published=True)
+    plants = Plant.objects.filter(published=True)
 
     if request.method == 'GET':
-        plant_serializer = PlantsSerializer(plants, many=True)
-        return JsonResponse(plant_serializer.data, safe=False)
+        plants_serializer = PlantSerializer(plants, many=True)
+        return JsonResponse(plants_serializer.data, safe=False)

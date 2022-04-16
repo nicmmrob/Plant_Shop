@@ -5,7 +5,7 @@ from django.conf import settings
 
 
 urlpatterns = [
-    path('', plants_views.index, name='index'),
+    path('', plants_views.index.as_view(), name='home'),
     path('api/plants/', plants_views.plant_list),
     path('api/plants/<int:pk>/', plants_views.plant_detail),
     path('api/plants/published/', plants_views.plant_list_published)
