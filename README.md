@@ -1,6 +1,6 @@
 # Plant Shop Database
 ### This is my portfolio project for Nucamp's SQL with Python.
-Throughout this project, I utilized several tools including: postgres, docker, pgAdmin, django, insomnia, and many more.
+Throughout this project, I utilized several tools including, but not limited to: postgres, docker, pgAdmin, django, insomnia, and deployed onto Google Cloud Platform (screenshots included as it is no longer deployed so as not to incur charges).
 
 
 | Property | Description |
@@ -28,4 +28,4 @@ Throughout this project, I utilized several tools including: postgres, docker, p
 
 
 Within the project, I implemented POST, GET, and DELETE. I have a POST statement to create a new plant in the database, GET a plant by ID or index all existing plants, and DELETE a plant altogether.
-In future states, I could implement many more features like creating a user, changing the email for the customer, updating existing plant information,etc.
+In future states, I could implement many more features such as creating a user (within the code, I have created models for such an endeavor), changing the email for the customer, updating existing plant information,etc.
